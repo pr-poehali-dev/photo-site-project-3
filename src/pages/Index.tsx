@@ -1,11 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
 import { useState } from "react";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const portfolioCategories = [
     { id: "all", name: "Все работы" },
@@ -92,14 +94,40 @@ const Index = () => {
           {/* Portfolio Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPortfolio.map((item) => (
-              <Card key={item.id} className="group overflow-hidden border-0 shadow-sm hover:shadow-lg transition-shadow">
-                <div className="aspect-square bg-gray-200 overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
+              <Card key={item.id} className="group overflow-hidden border-0 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="aspect-square bg-gray-200 overflow-hidden cursor-pointer relative">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                        <Icon 
+                          name="Eye" 
+                          size={32} 
+                          className="text-white opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100"
+                        />
+                      </div>
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] p-0 border-0">
+                    <div className="relative">
+                      <img 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-auto max-h-[80vh] object-contain"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                        <h3 className="text-white text-xl font-medium mb-2">{item.title}</h3>
+                        <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                          {portfolioCategories.find(cat => cat.id === item.category)?.name}
+                        </Badge>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 <CardContent className="p-4">
                   <h4 className="font-medium">{item.title}</h4>
                   <Badge variant="secondary" className="mt-2">

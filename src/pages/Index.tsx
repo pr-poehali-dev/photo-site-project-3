@@ -66,8 +66,8 @@ const Index = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Профессиональная фотография для особенных моментов вашей жизни
           </p>
-          <Button variant="outline" size="lg" className="text-lg px-8 py-4">
-            Посмотреть работы
+          <Button variant="outline" size="lg" className="text-lg px-8 py-4" asChild>
+            <a href="#portfolio">Посмотреть работы</a>
           </Button>
         </div>
       </section>
